@@ -17,7 +17,7 @@ class EnsembleRegressionAgent():
         self.scikit_model = joblib.load(scikit_file)
         self.machine_states = pd.DataFrame(
             index=range(num_bandits), 
-            columns=['step', 'n_pulls', 'n_success', 'n_opp_pulls', 'streak', 'opp_streak']
+            columns=['step', 'n_pulls', 'n_success', 'n_opp_pulls', 'streak', 'win_streak', 'opp_streak']
         ).fillna(0)
         
     def name(self):
@@ -29,15 +29,11 @@ class EnsembleRegressionAgent():
     def step(self, observation, configuration):
         if observation.step == 0:
             return np.random.randint(configuration.banditCount)
-        
-        player = observation.agentIndex
-        opponent = 1 if player == 0 else 0
-        
+         
         reward = observation.reward - self.total_reward
         self.total_reward = observation.reward
-        
-        last_action = observation.lastActions[player]
-        opp_action = observation.lastActions[opponent]
+        last_action = observation.lastActions[observation.agentIndex]
+        opp_action = observation.lastActions[1-observation.agentIndex]
         
         self.machine_states['step'] = observation.step
         self.machine_states.at[last_action, 'n_pulls'] += 1
@@ -48,6 +44,11 @@ class EnsembleRegressionAgent():
         self.machine_states.loc[self.machine_states.index != last_action, 'streak'] = 0
         self.machine_states.at[opp_action, 'opp_streak'] += 1
         self.machine_states.loc[self.machine_states.index != opp_action, 'opp_streak'] = 0
+        
+        if reward:
+            self.machine_states.at[last_action, 'win_streak'] += 1
+        else:
+            self.machine_states.at[last_action, 'win_streak'] = 0
         
         probs = self.get_probs()
         

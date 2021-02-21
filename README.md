@@ -47,3 +47,12 @@ I added my own `simulator.py` code to run games in parallel and print out agent 
 `round_robin` takes a list of agents, plays them all against each other, and prints a grid of win percentages.
 
 ![round_robin](assets/round_robin.png)
+
+## Sources
+Bayesian UCB - https://lilianweng.github.io/lil-log/2018/01/23/the-multi-armed-bandit-problem-and-its-solutions.html  
+Thompson Sampling - https://www.kaggle.com/ilialar/simple-multi-armed-bandit  
+Training data collection - https://www.kaggle.com/masatomatsui/santa-episode-scraper  
+Decision Tree Regressor - https://www.kaggle.com/lebroschar/1000-greedy-decision-tree-model  
+Ray support - https://www.kaggle.com/nigelcarpenter/parallel-processing-agent-trials-using-ray  
+Pull Vegas - https://www.kaggle.com/a763337092/pull-vegas-slot-machines-add-weaken-rate-continue5
+   

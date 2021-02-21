@@ -37,7 +37,7 @@ def print_inline_stats(scores):
     p1_wins, p2_wins = get_wins(scores)
     p, interval = get_mean_and_ci(p1_wins, p2_wins)
 
-    print(f"Results after {len(scores)} games: {p1_wins}-{p2_wins} P(player_1): {p:.2f}±{interval:.2f}", end='\r')
+    print(f"Results after {len(scores)} games: {p1_wins}-{p2_wins}    P(player_1): {p:.2f}±{interval:.2f}", end='\r')
 
 
 def print_stats(scores):

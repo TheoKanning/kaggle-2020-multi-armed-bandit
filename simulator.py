@@ -58,7 +58,7 @@ def compare_agents(agent_lambdas, num_games=50, num_bandits=100, num_steps=2000,
     names = [a(num_bandits).description() for a in agent_lambdas]
     print(f"{names[0]}\n{names[1]}")
 
-    num_cpus = 4
+    num_cpus = 6
 
     scores = []
     df = pd.DataFrame()
@@ -88,6 +88,14 @@ def compare_agents(agent_lambdas, num_games=50, num_bandits=100, num_steps=2000,
 
 
 def rank_agents(agents, num_games=50, min_games=20):
+
+    ranked = _rank_agents(agents, num_games=num_games, min_games=min_games)
+    print("\nFinal Ranking:")
+    for a in ranked:
+        print(a(100).description())
+
+
+def _rank_agents(agents, num_games=50, min_games=20):
     num_agents = len(agents)
     if num_agents == 1:
         return agents
@@ -100,8 +108,8 @@ def rank_agents(agents, num_games=50, min_games=20):
         else:
             return agents[::-1]
 
-    sublist_1 = rank_agents(agents[:num_agents // 2], num_games=num_games, min_games=min_games)
-    sublist_2 = rank_agents(agents[num_agents // 2:], num_games=num_games, min_games=min_games)
+    sublist_1 = _rank_agents(agents[:num_agents // 2], num_games=num_games, min_games=min_games)
+    sublist_2 = _rank_agents(agents[num_agents // 2:], num_games=num_games, min_games=min_games)
 
     ranked_agents = []
     while True:
